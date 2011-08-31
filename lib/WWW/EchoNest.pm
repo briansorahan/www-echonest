@@ -73,12 +73,12 @@ sub get_playlist {
     return WWW::EchoNest::Playlist->new( { artist => $_[0] } );
 }
 
-use WWW::EchoNest::Song;
+use WWW::EchoNest::Song qw( search_song );
 sub get_song {
     return WWW::EchoNest::Song->new( $_[0] ) if ref($_[0]) eq 'HASH';
     # Assume the arg is a string
     return WWW::EchoNest::Song->new( { id   => $_[0] } ) if is_id($_[0]);
-    return WWW::EchoNest::Song->new( { name => $_[0] } );
+    return search_song( { title => $_[0] } );
 }
 
 use WWW::EchoNest::Track qw( track_from_file );
