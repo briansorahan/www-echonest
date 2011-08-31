@@ -33,6 +33,7 @@ my $files     = join( q[ ], qw[
                             ]
                     );
 
+my $auto;
 my $log_file  = WWW::EchoNest::Preferences::log_filename;
 my $test_url  = 'http://spoomusic.com/albums/wjoo. joo. - Full Moon Yawn/'
     . '01 - wjoo. joo. - Full Moon Yawn.mp3';
@@ -60,6 +61,7 @@ my $builder = WWW::EchoNest::Build->new
      },
      get_options =>
      {
+      auto       => { store => \$auto,                     },
       files      => { store => \$files,       type => '=s' },
       test_url   => { store => \$test_url,    type => '=s' },
       test_file  => { store => \$test_file,   type => '=s' },
@@ -85,24 +87,12 @@ my $builder = WWW::EchoNest::Build->new
 my %test_args = ();
 my $test_file_string = q[];
 if ($files) {
-    for my $test (split( / /, $files)) {
+    for my $test ( split(' ', $files) ) {
         $test_file_string .= catfile( 't', $test . '.t' ) . q[ ];
     }
 }
 # print "$test_file_string\n";
 $test_args{'test_files'} = $test_file_string;
-
-########################################################################
-#
-# The following lines are to be used during development.
-# Comment out upon shipping!!
-
-# Delete the log #######################################################
-if ( -e $log_file ) {
-    unlink( $log_file ) or warn "Could not delete $log_file\n";
-}
-
-
 
 # Add some features that the test scripts will use. ####################
 eval {
@@ -113,26 +103,17 @@ $builder->feature( test_url      => $test_url             );
 $builder->feature( test_file     => $test_file       );
 $builder->feature( codegen_found => $CODEGEN_FOUND   );
 
-
-
-# Tell the builder to include .conf files ##############################
-#
-# - These lines are commented out because I decided to configure the
-#   Logger with a string instead of a conf file. Makes building and
-#   installing easier.
-#
-# use Config;
-# $builder->add_build_element('conf');
-# $builder->install_path( conf => $Config{installsitelib} );
-
-
-
 # Automated build? #####################################################
 #
-# $builder->dispatch( 'realclean' );
-# $builder->dispatch( 'build' );
-# print STDERR 'Running tests. This will take a few minutes...' . "\n";
-# $builder->dispatch( 'test', %test_args );
-# $builder->dispatch( 'install', uninst => 1 );
-
-$builder->create_build_script();
+if ($auto) {
+    $builder->dispatch( 'realclean' );
+    $builder->dispatch( 'build' );
+    
+    print STDERR 'Running tests. This will take a few minutes...' . "\n";
+    
+    $builder->dispatch( 'test', %test_args );
+    # $builder->dispatch( 'install', uninst => 1 );
+}
+else {
+    $builder->create_build_script();
+}

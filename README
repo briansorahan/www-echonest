@@ -1,71 +1,99 @@
 
-WWW::EchoNest
+# WWW::EchoNest
 
 Perl modules for accessing The Echo Nest web API.
 Read more about the Echo Nest at http://the.echonest.com
 
-INSTALLATION
 
-Prerequisites:
- - Working internet connection (for running the tests)
- - JSON CPAN module (and JSON::XS for speed!)
 
-Recommended CPAN modules:
- - Log::Log4perl (if you want to log to a file instead of STDERR)
- - File::Which (if you want to use WWW::EchoNest::Song::identify -- see
-    ECHOPRINT below)
+# INSTALLATION
+
+## Prerequisites:
+
+<ul>    
+<li>Working internet connection for running the tests.</li>
+<li>JSON CPAN module (and JSON::XS for speed!) for parsing Echo Nest responses.</li>
+</ul>
+
+## Recommended CPAN modules:
+
+<ul>
+<li>Log::Log4perl if you want to log to a file instead of STDERR.</li>
+<li>File::Which if you want to use WWW::EchoNest::Song::identify -- see ECHOPRINT below.</li>
+</ul>
 
 To install this module, run the following commands:
 
+<pre>
 	$ perl Build.PL
 	$ ./Build
 	$ ./Build test
 	$ ./Build install
+</pre>
 
-Note:
- - You may see a warning
-     << Could not read ECHO_NEST_API_KEY env var.
-        Your api key may need to be hardcoded into WWW/EchoNest/Preferences.pm >>
-    You should be able to ignore this warning during installation with no
-    problems.
- - The easiest way to let WWW::EchoNest see your EN api key is
+## Build notes
 
-SUPPORT AND DOCUMENTATION
+<ol>
+<li>You may see a warning during build:  
+> Could not read ECHO_NEST_API_KEY env var.  
+> Your api key may need to be hardcoded into WWW/EchoNest/Preferences.pm.  
+You should be able to ignore this warning during installation with no problems.</li>
+<li>The easiest way to let WWW::EchoNest see your EN api key is to export an environment variable called ECHO_NEST_API_KEY whose value is your api key.  
+You can also call the 'set_api_key' convenience function of WWW::EchoNest.</li>
 
-After installing, you can find documentation for this module with the
-perldoc command.
+#### Example
 
-    perldoc WWW::EchoNest
+<pre>
+use WWW::EchoNest qw( set_api_key );
+set_api_key('ABC123');
+</pre>
 
-You can also look for information at:
+# USAGE
 
-    http://groups.google.com/group/www-echonest
+<pre>
+use WWW::EchoNest qw(:all);
+my $godfather = get_artist('James Brown');
+my @audio_list      = $godfather->get_audio( { results => 50 } );
+my @biography_list  = $godfather->get_biographies(); # Gets 15 results by default
 
-ECHOPRINT
+my $free_bird = get_song('Free Bird');
+</pre>
 
-The Echo Nest has released an open-source audio analyzer called 'echoprint'.
-If you wish to use the WWW::EchoNest::Song::identify function then you will
-have to have echoprint installed and working properly on your system.
+# SUPPORT AND DOCUMENTATION
 
-See <http://echoprint.me/> for more information.
+After installing, you can find documentation for this module with the perldoc command.  
+$ perldoc WWW::EchoNest  
 
-After getting echoprint up and running, you should either edit
-WWW/EchoNest/Config.pm to hardcode the 'codegen_binary_override' field
-or call set_codegen_path from any programs that use Song::identify.
+You can also look for information at:  
+http://groups.google.com/group/www-echonest
 
-e.g.
+# ECHOPRINT
+
+The Echo Nest has released an open-source audio analyzer called 'echoprint'.  
+If you wish to use the WWW::EchoNest::Song::identify function then you will have to have echoprint installed and working properly on your system.
+
+See http://echoprint.me for more information.
+
+After getting echoprint up and running, you should either  
+edit WWW/EchoNest/Config.pm to hardcode the 'codegen_binary_override'  
+field or call set_codegen_path from any programs that use Song::identify.  
+
+#### Example
+
 <pre>
 use WWW::EchoNest qw( set_codegen_path );
 use WWW::EchoNest::Song qw( identify );
 my $song = identify( { filename => 'path/to/audio_file.mp3' } );
 </pre>
 
-Two more things you have to do before using Song::identify:
-- Install ffmpeg. (See <http://ffmpeg.org>)
-- Install File::Which from CPAN.
-  - This is how WWW::EchoNest finds the location of
+#### Other requirements
 
-LICENSE AND COPYRIGHT
+<ol>
+<liInstall ffmpeg. (See http://ffmpeg.org)</li>
+<li>Install File::Which from CPAN. (This is how WWW::EchoNest finds the location of ffmpeg, which you must have installed before using Song::identify.)</li>
+</ol>
+
+# LICENSE AND COPYRIGHT
 
 Copyright (C) 2011 Brian Sorahan
 

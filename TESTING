@@ -1,0 +1,25 @@
+# TESTING WWW::EchoNest
+
+The build script bundled with WWW::EchoNest (Build.PL) accepts some command-line  
+args that help make the testing easier for developers.
+
+###### auto
+
+<pre>
+$ perl Build.PL --auto
+</pre>
+
+A flag that enables auto-building. If this is enabled the build script will  
+automatically build and test the distribution. Some of the other options require  
+this option to be enabled.
+
+###### files
+
+<pre>
+$ perl Build.PL --auto --files='song track'
+# Runs tests only for t/song.t and t/track.t
+</pre>
+
+A space-separated list of the files to run tests for.  
+Note that the names specified with this option must correspond exactly  
+to test scripts in the t/ directory.

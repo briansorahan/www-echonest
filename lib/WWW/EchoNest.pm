@@ -14,13 +14,13 @@ BEGIN {
          # Convenience methods
          'get_artist',
          'get_catalog',
-         'get_config',
          'get_playlist',
          'get_song',
          'get_track',
          'pretty_json',
          'set_log_level',
          'set_codegen_path',
+         'set_api_key',
         );
     our %EXPORT_TAGS =
         (
@@ -34,6 +34,9 @@ use WWW::EchoNest::Id qw( is_id );
 use WWW::EchoNest::Config;
 sub set_codegen_path {
     WWW::EchoNest::Config::set_codegen_binary_override( $_[0] );
+}
+sub set_api_key {
+    WWW::EchoNest::Config::set_api_key( $_[0] );
 }
 
 use JSON;
@@ -73,8 +76,9 @@ sub get_playlist {
 use WWW::EchoNest::Song;
 sub get_song {
     return WWW::EchoNest::Song->new( $_[0] ) if ref($_[0]) eq 'HASH';
-    # Assume the arg is an Echo Nest Song ID
-    return WWW::EchoNest::Song->new( { id => $_[0] } );
+    # Assume the arg is a string
+    return WWW::EchoNest::Song->new( { id   => $_[0] } ) if is_id($_[0]);
+    return WWW::EchoNest::Song->new( { name => $_[0] } );
 }
 
 use WWW::EchoNest::Track qw( track_from_file );
@@ -83,33 +87,32 @@ sub get_track {
     return track_from_file( $_[0] );
 }
 
-
-
-1; # End of WWW::EchoNest
+1;
 
 __END__
 
 =head1 NAME
 
-WWW::EchoNest - Perl module for accessing the Echo Nest API.
-
-=head1 VERSION
-
-Version 0.01.
-
-
+WWW::EchoNest 0.0.1 - Perl module for accessing the Echo Nest API.
 
 =head1 SYNOPSIS
 
-  Top-level module in the WWW::EchoNest::* hierarchy.
-  Provides convenience functions for creating all of the
-  other WWW::EchoNest::* modules, and serves as a
-  repository for information (of interest to developers only)
-  about the various API's and their relationships to one
-  another (Echo Nest Web API <--> PyEchonest API <-->
-  WWW::EchoNest API).
+use WWW::EchoNest qw(:all);
+# Imports:
+# - get_artist
+# - get_catalog
+# - get_playlist
+# - get_song
+# - get_track
+# - pretty_json
+# - set_log_level
+# - set_codegen_path
+# - set_api_key
+# Each of which can also be imported individually.
 
-
+use WWW::EchoNest::Artist; # So we can call Artist methods
+my $artist = get_artist('talking heads');
+my $audio_docs_list = 
 
 =head1 FUNCTIONS
 
@@ -220,7 +223,7 @@ Version 0.01.
     A new instance of WWW::EchoNest::Track.
 
   EXAMPLE:
-    use WWW::EchoNest qw{ track };
+    use WWW::EchoNest qw( get_track );
     my $catalog = catalog( { name => q(my_songs), type => q(songs) } );
     # ...
 
@@ -234,7 +237,7 @@ You can find documentation for this module with the perldoc command.
 
 perldoc WWW::EchoNest
 
-Join the Google group: <http://groups.google.com/group/www-echonest>
+Also, join the Google group: <http://groups.google.com/group/www-echonest>
 
 =head1 ACKNOWLEDGEMENTS
 
