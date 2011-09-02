@@ -1,10 +1,11 @@
 
-WWW::EchoNest
-
-Perl modules for accessing The Echo Nest web API.
+WWW::EchoNest - Perl modules for accessing The Echo Nest web API.
 Read more about the Echo Nest at http://the.echonest.com
 
+
+
 INSTALLATION
+========================================================================
 
 Prerequisites:  
  - Working internet connection for running the tests.  
@@ -16,10 +17,10 @@ Recommended CPAN modules:
 
 To install this module, run the following commands:
 
-	$ perl Build.PL  
-	$ ./Build  
-	$ ./Build test  
-	$ ./Build install  
+    	$ perl Build.PL  
+    	$ ./Build  
+    	$ ./Build test  
+    	$ ./Build install  
 
 Build notes
 
@@ -37,7 +38,10 @@ Example
 use WWW::EchoNest qw( set_api_key );
 set_api_key('ABC123');
 
+
+
 USAGE
+========================================================================
 
 use WWW::EchoNest qw(:all);  
 my $godfather = get_artist('James Brown');  
@@ -53,7 +57,10 @@ $ perldoc WWW::EchoNest
 You can also look for information at:  
 http://groups.google.com/group/www-echonest
 
+
+
 ECHOPRINT
+========================================================================
 
 The Echo Nest has released an open-source audio analyzer called 'echoprint'.  
 If you wish to use the WWW::EchoNest::Song::identify function  
@@ -78,7 +85,10 @@ Install File::Which from CPAN. (This is how WWW::EchoNest
 finds the location of ffmpeg, which you must have installed  
 before using Song::identify.)
 
+
+
 LICENSE AND COPYRIGHT
+========================================================================
 
 Copyright (C) 2011 Brian Sorahan
 
