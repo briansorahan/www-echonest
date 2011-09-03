@@ -39,44 +39,33 @@ USAGE
     my $godfather = get_artist('James Brown');
     my @audio_list      = $godfather->get_audio( { results => 50 } );
     my @biography_list  = $godfather->get_biographies(); # Gets 15 results by default
+    
     my $free_bird = get_song('Free Bird');
 
 ECHOPRINT
 --------------------
 
-The Echo Nest has released an open-source audio analyzer called 'echoprint'.  
-If you wish to use the WWW::EchoNest::Song::identify function  
-then you will have to have echoprint installed and working properly on your system.  
-
+The Echo Nest has released an open-source audio analyzer called 'echoprint'.
+If you wish to use the WWW::EchoNest::Song::identify function then you will have to have echoprint installed and working properly on your system.
 See http://echoprint.me for more information.
+After getting echoprint up and running, you should either edit WWW/EchoNest/Config.pm to hardcode the 'codegen_binary_override' field or call set_codegen_path from any programs that use Song::identify.  
 
-After getting echoprint up and running, you should either edit  
-WWW/EchoNest/Config.pm to hardcode the 'codegen_binary_override'  
-field or call set_codegen_path from any programs that use Song::identify.  
+    use WWW::EchoNest qw( set_codegen_path );
+    use WWW::EchoNest::Song qw( identify );
+    my $song = identify( { filename => 'path/to/audio_file.mp3' } );
 
-#### Example
-
-use WWW::EchoNest qw( set_codegen_path );  
-use WWW::EchoNest::Song qw( identify );  
-my $song = identify( { filename => 'path/to/audio_file.mp3' } );  
-
-Other requirements
+#### Other requirements
 
 Install ffmpeg. (See http://ffmpeg.org)  
 Install File::Which from CPAN. (This is how WWW::EchoNest  
 finds the location of ffmpeg, which you must have installed  
 before using Song::identify.)
 
-
-
 SUPPORT AND DOCUMENTATION
 --------------------
 
 After installing, you can find documentation for this module with the perldoc command.  
 $ perldoc WWW::EchoNest
-
-You can also look for information at:  
-http://groups.google.com/group/www-echonest
 
 LICENSE AND COPYRIGHT
 --------------------
