@@ -1,12 +1,11 @@
-
-WWW::EchoNest - Perl modules for accessing The Echo Nest web API.  
-Read more about the Echo Nest at http://the.echonest.com.
+WWW::EchoNest - Perl modules for accessing The Echo Nest web API. Read more about the Echo Nest at http://the.echonest.com.
 
 INSTALLATION
 --------------------
 
 #### Prerequisites
  - Working internet connection for running the tests.  
+ - Echo Nest API key (go to http://developer.echonest.com).
  - JSON CPAN module (and JSON::XS for speed!) for parsing Echo Nest responses.  
 
 #### Recommended CPAN modules
@@ -20,19 +19,15 @@ To install this module, run the following commands:
     $ ./Build test  
     $ ./Build install  
 
-BUILD NOTES
---------------------
+You may see a warning during build:
 
-You may see a warning during build:  
 > Could not read ECHO_NEST_API_KEY env var.  
-> Your api key may need to be hardcoded into WWW/EchoNest/Preferences.pm.
+> Your api key may need to be hardcoded into WWW/EchoNest/Preferences.pm.  
 
-You should be able to ignore this warning during installation with no problems.  
-The easiest way to let WWW::EchoNest see your EN api key is to  
-export an environment variable called ECHO_NEST_API_KEY whose value is your api key.  
+You should be able to ignore this warning during installation with no problems.
+The easiest way to let WWW::EchoNest see your EN api key is to
+export an environment variable called ECHO_NEST_API_KEY whose value is your api key.
 You can also call the 'set_api_key' convenience function of WWW::EchoNest.
-
-#### Example
 
     use WWW::EchoNest qw( set_api_key );
     set_api_key('ABC123');
