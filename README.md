@@ -33,7 +33,7 @@ You can also call the 'set_api_key' convenience function of WWW::EchoNest.
 ```perl
 use WWW::EchoNest qw( set_api_key );
 set_api_key('ABC123');
-```perl
+```
 
 USAGE
 --------------------
@@ -44,7 +44,7 @@ my @audio_list      = $godfather->get_audio( { results => 50 } );
 my @biography_list  = $godfather->get_biographies(); # Gets 15 results by default
 
 my $free_bird = get_song('Free Bird');
-```perl
+```
 
 ECHOPRINT
 --------------------
@@ -58,7 +58,7 @@ After getting echoprint up and running, you should either edit WWW/EchoNest/Conf
 use WWW::EchoNest qw( set_codegen_path );
 use WWW::EchoNest::Song qw( identify );
 my $song = identify( { filename => 'path/to/audio_file.mp3' } );
-```perl
+```
 
 #### Other requirements
 
