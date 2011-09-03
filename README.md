@@ -56,16 +56,17 @@ After getting echoprint up and running, you should either edit WWW/EchoNest/Conf
 
 #### Other requirements
 
-Install ffmpeg. (See http://ffmpeg.org)  
-Install File::Which from CPAN. (This is how WWW::EchoNest  
-finds the location of ffmpeg, which you must have installed  
-before using Song::identify.)
+ - Install ffmpeg. (See http://ffmpeg.org)  
+ - Install File::Which from CPAN. (This is how WWW::EchoNest  
+   finds the location of ffmpeg, which you must have installed  
+   before using Song::identify.)
 
 SUPPORT AND DOCUMENTATION
 --------------------
 
-After installing, you can find documentation for this module with the perldoc command.  
-$ perldoc WWW::EchoNest
+After installing, you can find documentation for this module with the perldoc command.
+
+    $ perldoc WWW::EchoNest
 
 LICENSE AND COPYRIGHT
 --------------------
