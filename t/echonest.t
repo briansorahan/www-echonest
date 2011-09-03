@@ -57,7 +57,8 @@ isa_ok( $afx_playlist, 'WWW::EchoNest::Playlist' );
 # get_song ################################################################
 #
 my $skinny_song = get_song('SOWWTEP12A8C13F50E');
-ok( defined($skinny_song), 'get_song returns a defined result' );
+ok( defined($skinny_song),
+    'get_song returns a defined result when passed a song ID' );
 isa_ok( $skinny_song, 'WWW::EchoNest::Song' );
 
 

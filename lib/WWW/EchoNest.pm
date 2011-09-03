@@ -112,31 +112,19 @@ use WWW::EchoNest qw(:all);
 
 use WWW::EchoNest::Artist; # So we can call Artist methods
 my $artist = get_artist('talking heads');
-my $audio_docs_list = 
+my @audio_docs_list = 
 
 =head1 FUNCTIONS
-
-=head2 object_list
-
-  Get a list of the objects for which WWW::EchoNest provides convenience functions.
-
-  ARGUMENTS:
-    none
-
-  RETURNS:
-    A list of object names.
-
-  EXAMPLE:
-    use WWW::EchoNest;
-    my @object_list = WWW::EchoNest::object_list;
 
 =head2 get_artist
 
   Convenience function for creating Artist objects.
 
   ARGUMENTS:
-    See the documentation for WWW::EchoNest::Artist.
-    $ perldoc WWW::EchoNest::Artist
+    Either a hash ref that will be relayed as-is to WWW::EchoNest::Artist->new,
+    or a string that will be used as an artist name and passed to
+    WWW::EchoNest::Artist->new.
+    
 
   RETURNS:
     A new instance of WWW::EchoNest::Artist.
@@ -160,23 +148,6 @@ my $audio_docs_list =
   EXAMPLE:
     use WWW::EchoNest qw{ catalog };
     my $catalog = catalog( { name => q(my_songs), type => q(songs) } );
-    # ...
-
-=head2 get_config
-
-  Convenience function for creating Config objects.
-
-  ARGUMENTS:
-    See the documentation for WWW::EchoNest::Config.
-    $ perldoc WWW::EchoNest::Config
-
-  RETURNS:
-    A new instance of WWW::EchoNest::Config.
-
-  EXAMPLE:
-    use WWW::EchoNest qw{ config };
-    use WWW::EchoNest::Config qw{ set_api_key };
-    my $config = config( { name => q(my_songs), type => q(songs) } );
     # ...
 
 =head2 get_playlist

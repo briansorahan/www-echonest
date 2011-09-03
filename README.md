@@ -1,4 +1,5 @@
-WWW::EchoNest - Perl modules for accessing The Echo Nest web API. Read more about the Echo Nest at http://the.echonest.com.
+# WWW::EchoNest
+Perl modules for accessing The Echo Nest web API. Read more about the Echo Nest at http://the.echonest.com.
 
 INSTALLATION
 --------------------
@@ -29,18 +30,21 @@ The easiest way to let WWW::EchoNest see your EN api key is to
 export an environment variable called ECHO_NEST_API_KEY whose value is your api key.
 You can also call the 'set_api_key' convenience function of WWW::EchoNest.
 
-    use WWW::EchoNest qw( set_api_key );
-    set_api_key('ABC123');
+```perl
+use WWW::EchoNest qw( set_api_key );
+set_api_key('ABC123');
+```perl
 
 USAGE
 --------------------
+```perl
+use WWW::EchoNest qw(:all);
+my $godfather = get_artist('James Brown');
+my @audio_list      = $godfather->get_audio( { results => 50 } );
+my @biography_list  = $godfather->get_biographies(); # Gets 15 results by default
 
-    use WWW::EchoNest qw(:all);
-    my $godfather = get_artist('James Brown');
-    my @audio_list      = $godfather->get_audio( { results => 50 } );
-    my @biography_list  = $godfather->get_biographies(); # Gets 15 results by default
-    
-    my $free_bird = get_song('Free Bird');
+my $free_bird = get_song('Free Bird');
+```perl
 
 ECHOPRINT
 --------------------
@@ -50,16 +54,16 @@ If you wish to use the WWW::EchoNest::Song::identify function then you will have
 See http://echoprint.me for more information.
 After getting echoprint up and running, you should either edit WWW/EchoNest/Config.pm to hardcode the 'codegen_binary_override' field or call set_codegen_path from any programs that use Song::identify.  
 
-    use WWW::EchoNest qw( set_codegen_path );
-    use WWW::EchoNest::Song qw( identify );
-    my $song = identify( { filename => 'path/to/audio_file.mp3' } );
+```perl
+use WWW::EchoNest qw( set_codegen_path );
+use WWW::EchoNest::Song qw( identify );
+my $song = identify( { filename => 'path/to/audio_file.mp3' } );
+```perl
 
 #### Other requirements
 
  - Install ffmpeg. (See http://ffmpeg.org)  
- - Install File::Which from CPAN. (This is how WWW::EchoNest  
-   finds the location of ffmpeg, which you must have installed  
-   before using Song::identify.)
+ - Install File::Which from CPAN. (This is how WWW::EchoNest finds the location of ffmpeg, which you must have installed before using Song::identify.)
 
 SUPPORT AND DOCUMENTATION
 --------------------

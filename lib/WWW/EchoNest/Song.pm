@@ -436,17 +436,10 @@ __END__
 
 WWW::EchoNest::Song.
 
-
-
-=head1 VERSION
-
-Version 0.001.
-
-
-
 =head1 SYNOPSIS
     
-  A Song object.
+use WWW::EchoNest::Song;
+
 
 =head1 METHODS
 
@@ -455,19 +448,14 @@ Version 0.001.
   Returns a new WWW::EchoNest::Song instance.
 
   NOTE:
-    WWW::EchoNest also provides a song() convenience
-    function that also returns a new WWW::EchoNest::Song
-    instance.
+    WWW::EchoNest also provides a song() convenience function that also returns a new WWW::EchoNest::Song instance.
 
   ARGUMENTS:
-    id      => a song ID 
-    buckets => a list of strings specifying which buckets to retrieve
+    id         => a song ID 
+    buckets    => a list of strings specifying which buckets to retrieve
   
   RETURNS:
     A new WWW::EchoNest::Song instance.
-
-  EXAMPLE:
-    # Insert helpful example here!
 
 =head2 get_id
 
@@ -479,9 +467,6 @@ Version 0.001.
   RETURNS:
     The Echo Nest Song ID.
 
-  EXAMPLE:
-    # Insert helpful example here!
-
 =head2 get_title
 
   Returns the song title.
@@ -491,9 +476,6 @@ Version 0.001.
   
   RETURNS:
     Song title.
-
-  EXAMPLE:
-    # Insert helpful example here!
 
 =head2 get_artist_name
 
@@ -505,9 +487,6 @@ Version 0.001.
   RETURNS:
     Artist name.
 
-  EXAMPLE:
-    # Insert helpful example here!
-
 =head2 get_artist_id
 
   Returns the artist ID.
@@ -518,57 +497,35 @@ Version 0.001.
   RETURNS:
     The Echo Nest Artist ID.
 
-  EXAMPLE:
-    # Insert helpful example here!
-
 =head2 get_song_hotttnesss
 
-  Returns The Echo Nest's numerical estimation of
-  how hottt this song is.
+  Returns The Echo Nest's numerical estimation of how hottt this song is.
 
   ARGUMENTS:
-    cache => A boolean indicating whether or not the
-    cached value should be used (if available).
-    Defaults to True.
+    cache => A boolean indicating whether or not the cached value should be used (if available). Defaults to True.
   
   RETURNS:
     Float representing this song's hotttnesss.
 
-  EXAMPLE:
-    # Insert helpful example here!
-
 =head2 get_artist_hotttnesss
 
-  Returns The Echo Nest's numerical estimation of
-  how hottt the artist for this song is.
+  Returns The Echo Nest's numerical estimation of how hottt the artist for this song is.
 
   ARGUMENTS:
-    cache => A boolean indicating whether or not the
-    cached value should be used (if available).
-    Defaults to True.
+    cache => A boolean indicating whether or not the cached value should be used (if available). Defaults to True.
   
   RETURNS:
-    Float representing the artist's hotttnesss for
-    this song.
-
-  EXAMPLE:
-    # Insert helpful example here!
+    Float representing the artist's hotttnesss for this song.
 
 =head2 get_artist_familiarity
 
-  Returns The Echo Nest's numerical estimation of
-  how familiar the artist for this song is to the
-  rest of the world.
+  Returns The Echo Nest's numerical estimation of how familiar the artist for this song is to the rest of the world.
 
   ARGUMENTS:
     cache    => A boolean indicating whether or not the cached value should be used (if available). Defaults to True.
   
   RETURNS:
-    Float representing the artist's familiarity for
-    this song.
-
-  EXAMPLE:
-    # Insert helpful example here!
+    Float representing the artist's familiarity for this song.
 
 =head2 get_artist_location
 
@@ -581,39 +538,25 @@ Version 0.001.
     A reference to a hash describing location, latitude,
     and longitude for this Song's artist.
 
-  EXAMPLE:
-    # Insert helpful example here!
-
 =head2 get_audio_summary
 
-  Get an audio summary of a song containing mode, tempo,
-  key, duration, time signature, loudness, danceability,
-  energy, and analysis_url.
+  Get an audio summary of a song containing mode, tempo, key, duration, time signature, loudness, danceability, energy, and analysis_url.
 
   ARGUMENTS:
-    cache => A boolean indicating whether or not the
-    cached value should be used (if available). Defaults to True.
+    cache => A boolean indicating whether or not the cached value should be used (if available). Defaults to True.
   
   RETURNS:
-    A reference to a hash containing mode, tempo, key,
-    duration, time signature, loudness, danceability,
-    energy and analysis_url keys.
-
-  EXAMPLE:
-    # Insert helpful example here!
+    A reference to a hash containing mode, tempo, key, duration, time signature, loudness, danceability, energy and analysis_url keys.
 
 =head2 get_foreign_id
 
   Get the foreign id for this song for a specific id space.
 
   ARGUMENTS:
-    idspace  => A string indicating the idspace to fetch a foreign id for.
+    idspace     => A string indicating the idspace to fetch a foreign id for.
   
   RETURNS:
     A foreign ID string.
-
-  EXAMPLE:
-    # Insert helpful example here!
 
 =head2 get_tracks
 
@@ -624,11 +567,6 @@ Version 0.001.
   
   RETURNS:
     A reference to an array of hash refs describing tracks.
-
-  EXAMPLE:
-    # Insert helpful example here!
-
-
 
 =head1 FUNCTIONS
 
@@ -651,9 +589,6 @@ Version 0.001.
   
   RETURNS:
     A foreign ID string.
-
-  EXAMPLE:
-    # Insert helpful example here!
 
 =head2 search_song
 
@@ -712,11 +647,6 @@ Version 0.001.
 
   RETURNS:
     A reference to an array of Song objects.
-
-  EXAMPLE:
-    # Insert helpful example here!
-
-
 
 =head1 AUTHOR
 
