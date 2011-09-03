@@ -1,66 +1,53 @@
 
-WWW::EchoNest - Perl modules for accessing The Echo Nest web API.
-Read more about the Echo Nest at http://the.echonest.com
-
-
+WWW::EchoNest - Perl modules for accessing The Echo Nest web API.  
+Read more about the Echo Nest at http://the.echonest.com.
 
 INSTALLATION
-========================================================================
+--------------------
 
-Prerequisites:  
+#### Prerequisites
  - Working internet connection for running the tests.  
- - JSON CPAN module (and JSON::XS for speed!) for parsing Echo Nest responses.
+ - JSON CPAN module (and JSON::XS for speed!) for parsing Echo Nest responses.  
 
-Recommended CPAN modules:  
+#### Recommended CPAN modules
  - Log::Log4perl if you want to log to a file instead of STDERR.  
  - File::Which if you want to use WWW::EchoNest::Song::identify -- see ECHOPRINT below.  
 
 To install this module, run the following commands:
 
-    	$ perl Build.PL  
-    	$ ./Build  
-    	$ ./Build test  
-    	$ ./Build install  
+    $ perl Build.PL  
+    $ ./Build  
+    $ ./Build test  
+    $ ./Build install  
 
-Build notes
+BUILD NOTES
+--------------------
 
 You may see a warning during build:  
- > Could not read ECHO_NEST_API_KEY env var.  
- > Your api key may need to be hardcoded into WWW/EchoNest/Preferences.pm.
+> Could not read ECHO_NEST_API_KEY env var.  
+> Your api key may need to be hardcoded into WWW/EchoNest/Preferences.pm.
 
 You should be able to ignore this warning during installation with no problems.  
 The easiest way to let WWW::EchoNest see your EN api key is to  
 export an environment variable called ECHO_NEST_API_KEY whose value is your api key.  
 You can also call the 'set_api_key' convenience function of WWW::EchoNest.
 
-Example
+#### Example
 
-use WWW::EchoNest qw( set_api_key );
-set_api_key('ABC123');
-
-
+    use WWW::EchoNest qw( set_api_key );
+    set_api_key('ABC123');
 
 USAGE
-========================================================================
+--------------------
 
-use WWW::EchoNest qw(:all);  
-my $godfather = get_artist('James Brown');  
-my @audio_list      = $godfather->get_audio( { results => 50 } );  
-my @biography_list  = $godfather->get_biographies(); # Gets 15 results by default  
-my $free_bird = get_song('Free Bird');  
-
-SUPPORT AND DOCUMENTATION
-
-After installing, you can find documentation for this module with the perldoc command.  
-$ perldoc WWW::EchoNest
-
-You can also look for information at:  
-http://groups.google.com/group/www-echonest
-
-
+    use WWW::EchoNest qw(:all);
+    my $godfather = get_artist('James Brown');
+    my @audio_list      = $godfather->get_audio( { results => 50 } );
+    my @biography_list  = $godfather->get_biographies(); # Gets 15 results by default
+    my $free_bird = get_song('Free Bird');
 
 ECHOPRINT
-========================================================================
+--------------------
 
 The Echo Nest has released an open-source audio analyzer called 'echoprint'.  
 If you wish to use the WWW::EchoNest::Song::identify function  
@@ -72,7 +59,7 @@ After getting echoprint up and running, you should either edit
 WWW/EchoNest/Config.pm to hardcode the 'codegen_binary_override'  
 field or call set_codegen_path from any programs that use Song::identify.  
 
-Example
+#### Example
 
 use WWW::EchoNest qw( set_codegen_path );  
 use WWW::EchoNest::Song qw( identify );  
@@ -87,8 +74,17 @@ before using Song::identify.)
 
 
 
+SUPPORT AND DOCUMENTATION
+--------------------
+
+After installing, you can find documentation for this module with the perldoc command.  
+$ perldoc WWW::EchoNest
+
+You can also look for information at:  
+http://groups.google.com/group/www-echonest
+
 LICENSE AND COPYRIGHT
-========================================================================
+--------------------
 
 Copyright (C) 2011 Brian Sorahan
 
