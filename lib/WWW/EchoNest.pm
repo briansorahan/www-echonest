@@ -75,9 +75,16 @@ sub get_playlist {
 
 use WWW::EchoNest::Song qw( search_song );
 sub get_song {
-    return WWW::EchoNest::Song->new( $_[0] ) if ref($_[0]) eq 'HASH';
+    if ( ref($_[0]) eq 'HASH' ) {
+        # Song constructor expects an id field, so we use search_song if there
+        # isn't one
+        return WWW::EchoNest::Song->new( $_[0] ) if ( exists $_[0]->{id} );
+        return search_song( $_[0] );
+    }
     # Assume the arg is a string
-    return WWW::EchoNest::Song->new( { id   => $_[0] } ) if is_id($_[0]);
+    if (is_id( $_[0] )) {
+        return WWW::EchoNest::Song->new( { id => $_[0] } );
+    }
     return search_song( { title => $_[0] } );
 }
 
@@ -111,8 +118,9 @@ use WWW::EchoNest qw(:all);
 # Each of which can also be imported individually.
 
 use WWW::EchoNest::Artist; # So we can call Artist methods
-my $artist = get_artist('talking heads');
-my @audio_docs_list = 
+my $talking_heads = get_artist('talking heads');
+my $audio_docs_list = $talking_heads->get_audio;
+my 
 
 =head1 FUNCTIONS
 
@@ -122,81 +130,99 @@ my @audio_docs_list =
 
   ARGUMENTS:
     Either a hash ref that will be relayed as-is to WWW::EchoNest::Artist->new,
-    or a string that will be used as an artist name and passed to
-    WWW::EchoNest::Artist->new.
-    
+    or a string that is either an artist name or an Echo Nest artist ID.
 
   RETURNS:
     A new instance of WWW::EchoNest::Artist.
 
   EXAMPLE:
-    use WWW::EchoNest qw{ artist };
-    my $artist = artist( q{The Residents} );
-    # ...
+    use WWW::EchoNest qw( get_artist );
+    my $blondie = get_artist( { name => 'blondie' } );
+
+    # or
+    my $blondie = get_artist('blondie');
+
+    # or
+    my $blondie = get_artist('ARM7YQQ1187B9A84E7');
 
 =head2 get_catalog
 
   Convenience function for creating Catalog objects.
 
   ARGUMENTS:
-    See the documentation for WWW::EchoNest::Catalog.
-    $ perldoc WWW::EchoNest::Catalog
+    A hash-ref that will be passed as-is to the WWW::EchoNest::Catalog
+    constructor, or a string that will be used as the name of the new catalog.
 
   RETURNS:
     A new instance of WWW::EchoNest::Catalog.
 
   EXAMPLE:
-    use WWW::EchoNest qw{ catalog };
-    my $catalog = catalog( { name => q(my_songs), type => q(songs) } );
-    # ...
+    use WWW::EchoNest qw( get_catalog );
+    my $artist_catalog = get_catalog({ name => 'my_artists', type => 'artist' });
+
+    my $catalog = get_catalog( { name => 'my_songs', type => 'song' } );
+
+    # or, because 'type' defaults to 'song'...
+    my $catalog = get_catalog('my_songs');
 
 =head2 get_playlist
 
   Convenience function for creating Playlist objects.
 
   ARGUMENTS:
-    See the documentation for WWW::EchoNest::Playlist.
-    $ perldoc WWW::EchoNest::Playlist
+    A HASH-ref that will be relayed as-is to the Playlist constructor, or
+    an ARRAY-ref of artist names, or
+    an artist name.
 
   RETURNS:
     A new instance of WWW::EchoNest::Playlist.
 
   EXAMPLE:
-    use WWW::EchoNest qw{ playlist };
-    my $playlist = playlist( { name => q(my_songs), type => q(songs) } );
-    # ...
+    use WWW::EchoNest qw( get_playlist );
+    my $plist = get_playlist( { artist => [ qw( Blondie Curve ) ] } ); # Yuck!
+
+    # or just an ARRAY ref...
+    my $plist = get_playlist( [ qw( Blondie Curve ) ] );
+
+    # or a string...
+    my $plist = get_playlist('Tom Waits');
 
 =head2 get_song
 
   Convenience function for creating Song objects.
 
   ARGUMENTS:
-    See the documentation for WWW::EchoNest::Song.
-    $ perldoc WWW::EchoNest::Song
+    An ARRAY-ref that will be relayed as-is to the Song constructor, or
+    an Echo Nest song ID, or
+    a song title.
 
   RETURNS:
     A new instance of WWW::EchoNest::Song.
 
   EXAMPLE:
-    use WWW::EchoNest qw{ song };
-    my $catalog = catalog( { name => q(my_songs), type => q(songs) } );
-    # ...
+    use WWW::EchoNest qw( get_song );
+    my $clap = get_song( { title => 'clap hands', artist => 'tom waits' } );
+
+    # or just a song title (which may not give you the results you expect!)
+    # this usage actually calls WWW::EchoNest::Song::search
+    my $clap = get_song('clap hands');
+
+    # or an Echo Nest song ID (much more reliable)
+    my $clap = get_song('SODZTUL12AF72A0780');
 
 =head2 get_track
 
   Convenience function for creating Track objects.
 
   ARGUMENTS:
-    See the documentation for WWW::EchoNest::Track.
-    $ perldoc WWW::EchoNest::Track
+    A filename.
 
   RETURNS:
     A new instance of WWW::EchoNest::Track.
 
   EXAMPLE:
     use WWW::EchoNest qw( get_track );
-    my $catalog = catalog( { name => q(my_songs), type => q(songs) } );
-    # ...
+    my $new_track = get_track('path/to/audio/file.mp3');
 
 =head1 AUTHOR
 

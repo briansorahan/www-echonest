@@ -111,25 +111,10 @@ sub _get_request_for {
 
 __END__
 
-
-
 =head1 NAME
 
 WWW::EchoNest::PlaylistProxy
-
-
-
-=head1 VERSION
-
-Version 0.001.
-
-
-
-=head1 SYNOPSIS
-    
-    use WWW::EchoNest::PlaylistProxy;
-
-
+For internal use only!
 
 =head1 METHODS
 

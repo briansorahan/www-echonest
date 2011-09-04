@@ -37,7 +37,7 @@ use parent qw[ Exporter ];
 eval {
     use JSON;
 };
-croak qq[No JSON module: $@] if $@;
+croak "No JSON module: $@" if $@;
 
 ########################################################################
 #
@@ -103,8 +103,8 @@ sub json_rep {
     $user_agent->default_header( @headers );
     $user_agent->show_progress(1) if get_conf->get_show_progress();
     $user_agent->add_handler(
-                             request_prepare => $request_handler,
-                             response_done   => $response_handler,
+                             request_prepare   => $request_handler,
+                             response_done     => $response_handler,
                             );
 
     sub user_agent     {   return $user_agent              }
@@ -143,10 +143,9 @@ sub json_rep {
         };
         croak "Error decoding JSON: $@" if $@;
 
-        $logger->info(
-                      q/response: /,
-                      json_rep($response_ref),
-                     ) if ($trace_api_calls);
+        $logger->info( 'response: ' . json_rep($response_ref) )
+            if ($trace_api_calls);
+                     
     
         # Fetch the status block, response code, and response message
         my $status_hash_ref    = $response_ref->{'response'}{'status'};
@@ -429,7 +428,7 @@ sub json_rep {
             $urlGET->query_form( \@param_list );
         
             # Log the URL if we have enabled TRACE_API_CALLS
-            $logger->info( q/GET / . $urlGET )    if ($trace_api_calls);
+            # $logger->info( q/GET / . $urlGET )    if ($trace_api_calls);
 
             $response = user_agent()->get( $urlGET );
         }

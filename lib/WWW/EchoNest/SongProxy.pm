@@ -28,7 +28,7 @@ sub new {
     my $id      = $args_ref->{id};
     my $buckets = $args_ref->{buckets};
 
-    croak 'Invalid id' if ! (defined($id) && is_id($id));
+    croak 'Invalid id' if defined($id) && (! is_id($id));
 
     # Create the new instance
     $args_ref->{object}  = $object_type;
