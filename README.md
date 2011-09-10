@@ -55,13 +55,13 @@ USAGE
 --------------------
 ```perl
 use WWW::EchoNest qw(:all);
-my $godfather = get_artist('James Brown');
+my $godfather       = get_artist('James Brown');
 my @audio_list      = $godfather->get_audio( { results => 50 } );
 my @biography_list  = $godfather->get_biographies(); # Gets 15 results by default
 
-my $free_bird = get_song('Free Bird');
-my $free_bird_id = $free_bird->get_id();
-my $free_bird_hotttnesss = $free_bird->get_song_hotttnesss();
+my $free_bird              = get_song('Free Bird');
+my $free_bird_id           = $free_bird->get_id();
+my $free_bird_hotttnesss   = $free_bird->get_song_hotttnesss();
 ```
 
 ECHOPRINT
