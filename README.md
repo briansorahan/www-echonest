@@ -38,8 +38,8 @@ You *must* configure WWW::EchoNest to be able to see your developer API key.
 The easy way to do this is by setting an environment variable called
 ECHO_NEST_API_KEY.  
 
-        ECHO_NEST_API_KEY='ABC123';  
-        export ECHO_NEST_API_KEY;  
+    ECHO_NEST_API_KEY='ABC123';  
+    export ECHO_NEST_API_KEY;  
 
 Put this in your shell initialization script (e.g. ~/.profile) and you can
 probably forget that you ever had to set up an API key!  
