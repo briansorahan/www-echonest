@@ -1,4 +1,3 @@
-
 package WWW::EchoNest::Result::List;
 
 use 5.010;
@@ -36,15 +35,25 @@ sub _compare {
 # METHODS
 #
 sub new {
-    my($class, $aref, %args) = @_;
-    $aref //= [];
-
+    my ( $class, $aref, %args ) = @_;
+    
     return bless
         {
          list       => $aref,
-         start      => $args{start}     // 0,
-         total      => $args{total}     // scalar @$aref    // 0,
+         start      => $args{start}   // 0,
+         total      => $args{total}   // scalar(@$aref),
         }, ref($class) || $class;
+}
+
+sub iterator {
+    my ( $self, )     = @_;
+    my @list          = $self->list;
+    my $index         = 0;
+    
+    return sub {
+        my $element = $list[$index++];
+        return $element ? $element : undef;
+    }
 }
 
 sub push {
@@ -66,7 +75,6 @@ __END__
 =head1 NAME
 
 WWW::EchoNest::Result::List
-For internal use only!
 
 =head1 AUTHOR
 

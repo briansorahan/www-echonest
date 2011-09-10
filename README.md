@@ -6,7 +6,8 @@ INSTALLATION
 
 #### Prerequisites
  - Working internet connection for running the tests.  
- - Echo Nest API key (go to http://developer.echonest.com).
+ - Echo Nest API key (go to http://developer.echonest.com to get one, then see
+     CONFIGURATION).
  - JSON CPAN module (and JSON::XS for speed!) for parsing Echo Nest responses.  
 
 #### Recommended CPAN modules
@@ -20,18 +21,33 @@ To install this module, run the following commands:
     $ ./Build test  
     $ ./Build install  
 
-You may see a warning during build:
+You may see a warning during install:
 
 > Could not read ECHO_NEST_API_KEY env var.  
 > Your api key may need to be hardcoded into WWW/EchoNest/Preferences.pm.  
 
-You should be able to ignore this warning during installation with no problems.
-The easiest way to let WWW::EchoNest see your EN api key is to
-export an environment variable called ECHO_NEST_API_KEY whose value is your api key.
-You can also call the 'set_api_key' convenience function of WWW::EchoNest.
+This probably means that you're installing by temporarily logging in as superuser
+(i.e. by using the 'sudo' command) and that the superuser account doesn't have an
+ECHO_NEST_API_KEY variable defined in their environment. You won't see during
+normal usage as long as you set up the aforementioned environment variable for
+your user account. See CONFIGURATION below for instructions on how to do this.
 
+CONFIGURATION
+--------------------
+You *must* configure WWW::EchoNest to be able to see your developer API key.  
+The easy way to do this is by setting an environment variable called
+ECHO_NEST_API_KEY.  
+```bash
+ECHO_NEST_API_KEY='ABC123';
+export ECHO_NEST_API_KEY;
+```
+Put this in your shell initialization script (e.g. ~/.profile) and you can
+probably forget that you ever had to set up an API key!  
+
+The hard way to do this is by using a function called set_api_key.  
+This function is exported by WWW::EchoNest when you use the ':all' import tag.  
 ```perl
-use WWW::EchoNest qw( set_api_key );
+use WWW::EchoNest qw(:all);
 set_api_key('ABC123');
 ```
 
@@ -44,7 +60,8 @@ my @audio_list      = $godfather->get_audio( { results => 50 } );
 my @biography_list  = $godfather->get_biographies(); # Gets 15 results by default
 
 my $free_bird = get_song('Free Bird');
-my $free_bird_id = $free_bird->get_id;
+my $free_bird_id = $free_bird->get_id();
+my $free_bird_hotttnesss = $free_bird->get_song_hotttnesss();
 ```
 
 ECHOPRINT

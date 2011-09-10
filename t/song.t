@@ -151,6 +151,8 @@ ok( defined($artist_location)
 #
 # get_foreign_id
 #
+# This API call is unreliable. Sometimes you get results and sometimes you don't
+# 
 my $mb_id = $song_ref->get_foreign_id( { idspace => 'musicbrainz' } );
 
 
