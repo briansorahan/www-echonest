@@ -7,7 +7,7 @@ use warnings;
 use Carp;
 
 BEGIN {
-    our $VERSION = '0.0.1';
+    our $VERSION = '0.0.2';
     our @EXPORT    = ();
     our @EXPORT_OK =
         (

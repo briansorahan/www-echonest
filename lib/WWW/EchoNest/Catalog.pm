@@ -3,7 +3,7 @@ package WWW::EchoNest::Catalog;
 
 BEGIN {
     our @EXPORT        = qw(  );
-    our @EXPORT_OK     = qw( list_catalogs _types );
+    our @EXPORT_OK     = qw( list_catalogs _types delete_all );
 }
 use parent qw[ WWW::EchoNest::CatalogProxy Exporter ];
 
@@ -11,12 +11,9 @@ use 5.010;
 use strict;
 use warnings;
 use Carp;
+use JSON;
 
-eval {
-    use JSON;
-};
-croak "You need to install the JSON module from http://cpan.org" if $@;
-
+use WWW::EchoNest::Logger qw( get_logger );
 use WWW::EchoNest::Result::List;
 use WWW::EchoNest::Functional qw(
                                     update
@@ -32,7 +29,11 @@ use overload
     '""' => '_stringify',
     ;
 
+
+
 make_stupid_accessor( qw[ type ] );
+
+
 
 # # # # METHODS # # # #
 
@@ -42,11 +43,15 @@ sub _stringify {
 
 sub _types { WWW::EchoNest::CatalogProxy::_types }
 
+sub _pretty_json { to_json( $_[0], { utf8 => 1, pretty => 1 } ) }
+
 my @acceptable_actions = qw( delete update play skip );
 sub _update {
     # $items is ARRAY ref
     my($self, $items_aref) = @_;
     my $id = $self->get_id;
+
+    my $logger = get_logger;
 
     for my $item (@$items_aref) {
         $item->{action}  //= 'update';
@@ -61,13 +66,13 @@ sub _update {
         croak "Malformed item_id: $item_id"
             if $item_id !~ /[[:alpha:][:digit:][:punct:]]+/;
     }
+
+    my $data = _pretty_json( $items_aref );
+
+    $logger->debug('items: ' . $data);
     
-    my $result = $self->post_attribute(
-                                       {
-                                        method   => 'update',
-                                        data     => encode_json( $items_aref ),
-                                       }
-                                      );
+    my $result = $self->post_attribute( {method => 'update', data => $data} );
+
     return $result->{ticket};
 }
 
@@ -190,6 +195,13 @@ sub delete {
 
 
 # # # # FUNCTIONS # # # #
+
+sub delete_all {
+    my @catalogs = list_catalogs();
+    if (@catalogs) {
+        $_->delete for (@catalogs);
+    }
+}
 
 sub list_catalogs {
     my($args_ref) = @_;
@@ -438,7 +450,6 @@ WWW::EchoNest::Catalog
     #
     #
 
-
 =head2 delete
 
   Deletes the entire catalog.
@@ -485,6 +496,27 @@ WWW::EchoNest::Catalog
     #
     # Catalogs: {
     # }
+    #
+
+=head2 delete_all
+
+  Deletes the entire catalog.
+  
+  ARGUMENTS:
+    none
+  
+  RETURNS:
+    The deleted catalog's id.
+
+  EXAMPLE:
+    use WWW::EchoNest qw( :all );
+    # Create a catalog and store it as $catalog...
+    my $deleted_id = $catalog->delete();
+    print "Deleted catalog $catalog_id\n";
+
+    ######## Results will differ ########
+    #
+    # Deleted catalog CAMSSDQ1303D86C20D
     #
 
 

@@ -1,5 +1,4 @@
 Build.PL
-Changes
 ignore.txt
 lib/WWW/EchoNest.pm
 lib/WWW/EchoNest/Artist.pm
@@ -37,3 +36,5 @@ t/pod.t
 t/song.t
 t/track.t
 test_file.mp3
+Makefile.PL
+META.yml

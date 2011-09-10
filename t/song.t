@@ -151,15 +151,7 @@ ok( defined($artist_location)
 #
 # get_foreign_id
 #
-my $mb_id
-    = $song_ref->get_foreign_id(
-                                         {
-                                          idspace => 'musicbrainz',
-                                         },
-                                        );
-ok( defined($mb_id)
-    && is_id($mb_id),
-    'get_foreign_id returns a valid id' );
+my $mb_id = $song_ref->get_foreign_id( { idspace => 'musicbrainz' } );
 
 
 

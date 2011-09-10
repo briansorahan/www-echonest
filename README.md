@@ -44,6 +44,7 @@ my @audio_list      = $godfather->get_audio( { results => 50 } );
 my @biography_list  = $godfather->get_biographies(); # Gets 15 results by default
 
 my $free_bird = get_song('Free Bird');
+my $free_bird_id = $free_bird->get_id;
 ```
 
 ECHOPRINT

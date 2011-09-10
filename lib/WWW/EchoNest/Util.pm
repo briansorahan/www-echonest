@@ -13,6 +13,7 @@ use URI::Escape;
 use LWP::UserAgent;
 use HTTP::Request::Common;
 use HTTP::Response;
+use JSON;
 
 use WWW::EchoNest;
 our $VERSION = $WWW::EchoNest::VERSION;
@@ -31,13 +32,6 @@ BEGIN {
 use parent qw[ Exporter ];
 
 
-
-
-# Required CPAN modules
-eval {
-    use JSON;
-};
-croak "No JSON module: $@" if $@;
 
 ########################################################################
 #
@@ -321,7 +315,7 @@ sub json_rep {
         my $trace_api_calls   = get_conf->get_trace_api_calls();
     
         # Set the api_key
-        $params{ q/api_key/ } = get_conf->get_api_key();
+        $params{api_key} = get_conf->get_api_key();
 
         # Initialize the parameter list
         my @param_list;
@@ -381,11 +375,26 @@ sub json_rep {
                                        Content_Type     => 'form-data',
                                        Content          => \@param_list
                                       );
+                    $logger->debug( json_rep($data) )
+                        if $trace_api_calls && ref($data);
                     $response = user_agent()->request( $request );
                 } else {
                     push @param_list, @$data if ( ref($data) eq 'ARRAY' );
                     push @param_list, %$data if ( ref($data) eq 'HASH' );
-                    $response = user_agent()->post( $urlPOST, \@param_list );
+
+                    $logger->debug( json_rep($data) )
+                        if $trace_api_calls && ref($data);
+
+                    if ($method eq 'catalog/delete') {
+                        $response
+                            = user_agent()->post(
+                                                 $urlPOST,
+                                                 Content_Type  => 'form-data',
+                                                 Content       => \@param_list,
+                                                );
+                    } else {
+                        $response = user_agent()->post( $urlPOST, \@param_list );
+                    }
                 }
             } else {
                 # This calls method 'track/upload' with a local file,

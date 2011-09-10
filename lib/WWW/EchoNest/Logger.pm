@@ -79,7 +79,7 @@ CONF
         $conf_str_alias       =~ s/LOG_LEVEL/$log_level/;
         $conf_str_alias       =~ s/LOG_FILENAME/$log_filename/;
 
-        # unlink $log_filename;
+        unlink $log_filename;
 
         Log::Log4perl::init( \$conf_str_alias );
     }

@@ -7,15 +7,17 @@ use warnings;
 use Test::More 'no_plan';
 
 BEGIN {
-    use_ok( 'WWW::EchoNest',             qw[ get_catalog get_artist        ] );
-    use_ok( 'WWW::EchoNest::Id',         qw[ is_id                         ] );
-    use_ok( 'WWW::EchoNest::Catalog',    qw[ list_catalogs _types          ] );
-    use_ok( 'WWW::EchoNest::Song',       qw[ search_song                   ] );
-    use_ok( 'WWW::EchoNest::Artist'                                          );
+    use_ok( 'WWW::EchoNest',             qw[ get_catalog get_artist get_song ] );
+    use_ok( 'WWW::EchoNest::Id',         qw[ is_id                           ] );
+    use_ok( 'WWW::EchoNest::Catalog',    qw[ list_catalogs _types delete_all ] );
+    use_ok( 'WWW::EchoNest::Song',       qw[ search_song                     ] );
+    use_ok( 'WWW::EchoNest::Artist'                                            );
 }
 
 my @catalog_types = WWW::EchoNest::Catalog::_types;
 my @catalogs = ();
+
+delete_all();
 
 ########################################################################
 #
@@ -34,6 +36,7 @@ my $artist_catalog
             );
 
 my $easy_catalog = get_catalog('some_songs');
+
 push @catalogs, ($song_catalog, $artist_catalog, $easy_catalog);
 
 ########################################################################
@@ -62,11 +65,21 @@ for my $catalog (@catalogs) {
 #
 # add_song
 #
-my $heaven_song_ref
-    = search_song( { artist => 'Talking Heads', title => 'Heaven' } );
+my $heaven   = get_song( {artist => 'Talking Heads', title => 'Heaven'} );
+my $animals  = get_song( {artist => 'Talking Heads', title => 'Animals'} );
+
+my @songs = ();
+push @songs, $heaven;
+push @songs, $animals;
+
 can_ok( $song_catalog, qw[ add_song ] );
-isa_ok( $heaven_song_ref, 'WWW::EchoNest::Song' );
-my $song_ticket = $song_catalog->add_song( $heaven_song_ref );
+
+for (@songs) {
+    ok( defined($_), 'get_song returned a defined result' );
+    isa_ok( $_, 'WWW::EchoNest::Song' );
+}
+
+my $song_ticket = $song_catalog->add_song( @songs );
 
 
 
@@ -74,11 +87,16 @@ my $song_ticket = $song_catalog->add_song( $heaven_song_ref );
 #
 # add_artist
 #
-my $artist_ref = get_artist('Autechre');
+my @artists = ();
+push @artists, get_artist('Blondie');
+push @artists, get_artist('Curve');
+push @artists, get_artist('Little Boots');
+push @artists, get_artist('Aimee Mann');
 can_ok( $artist_catalog, qw[ add_artist ] );
-isa_ok( $artist_ref, 'WWW::EchoNest::Artist' );
-my $artist_ticket = $artist_catalog->add_artist( $artist_ref );
+my $artist_ticket = $artist_catalog->add_artist( @artists );
 
+# Give the Echo Nest a little time to update the catalogs!
+sleep(15);
 
 
 ########################################################################
@@ -115,7 +133,10 @@ isa_ok(
        'WWW::EchoNest::Result::List',
        'read_items returns an instance of WWW::EchoNest::ResultList'
       );
-ok( defined($artist_catalog_objects->get(0)), 'read_items()->get(0) is defined' );
+ok(
+   defined($artist_catalog_objects->get(0)),
+   'read_items()->get(0) is defined'
+  );
 isa_ok(
        $artist_catalog_objects->get(0),
        'WWW::EchoNest::Artist',

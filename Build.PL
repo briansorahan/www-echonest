@@ -94,7 +94,10 @@ if ($files) {
 # print "$test_file_string\n";
 $test_args{'test_files'} = $test_file_string;
 
+
+
 # Add some features that the test scripts will use. ####################
+#
 eval {
     codegen( $test_file );
 };
@@ -102,6 +105,8 @@ my $CODEGEN_FOUND = $@ ? 0 : 1;
 $builder->feature( test_url      => $test_url             );
 $builder->feature( test_file     => $test_file       );
 $builder->feature( codegen_found => $CODEGEN_FOUND   );
+
+
 
 # Automated build? #####################################################
 #
@@ -113,6 +118,7 @@ if ($auto) {
     
     $builder->dispatch( 'test', %test_args );
     # $builder->dispatch( 'install', uninst => 1 );
+    $builder->dispatch( 'realclean' );
 }
 else {
     $builder->create_build_script();

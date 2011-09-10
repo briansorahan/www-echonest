@@ -105,9 +105,9 @@ SKIP : {
     skip 'Because', 2 if $skip_track_from_url;
 
     my $wjoojoo_id       = 'TRWERWS1314D810635';
-    my $track_from_id1   = track_from_id( $wjoojoo_id );
-    ok( defined($track_from_id1), '$track_from_id1 is defined' );
-    isa_ok( $track_from_id1, 'WWW::EchoNest::Track' );
+    my $track_from_id   = track_from_id( $wjoojoo_id );
+    ok( defined($track_from_id), '$track_from_id is defined' );
+    isa_ok( $track_from_id, 'WWW::EchoNest::Track' );
 };
 
 
@@ -122,9 +122,9 @@ SKIP : {
     skip 'Because', 2 if $skip_track_from_md5;
 
     my $wjoojoo_md5       = '68fc61663fe5c833684d72885aad854e';
-    my $track_from_md51   = track_from_md5( $wjoojoo_md5 );
-    ok( defined($track_from_md51), '$track_from_md51 is defined' );
-    isa_ok( $track_from_md51, 'WWW::EchoNest::Track' );
+    my $track_from_md5   = track_from_md5( $wjoojoo_md5 );
+    ok( defined($track_from_md5), '$track_from_md5 is defined' );
+    isa_ok( $track_from_md5, 'WWW::EchoNest::Track' );
 };
 
 
@@ -139,9 +139,9 @@ SKIP : {
     skip 'Because', 2 if $skip_track_from_reanalyzing_id;
 
     my $wjoojoo_id           = 'TRWERWS1314D810635';
-    my $track_from_re_id1    = track_from_reanalyzing_id( $wjoojoo_id );
-    ok( defined($track_from_re_id1), '$track_from_re_id1 is defined' );
-    isa_ok( $track_from_re_id1, 'WWW::EchoNest::Track' );
+    my $track_from_re_id    = track_from_reanalyzing_id( $wjoojoo_id );
+    ok( defined($track_from_re_id), '$track_from_re_id is defined' );
+    isa_ok( $track_from_re_id, 'WWW::EchoNest::Track' );
 };
 
 
@@ -156,7 +156,7 @@ SKIP : {
     skip 'Because', 2 if $skip_track_from_reanalyzing_md5;
 
     my $wjoojoo_md5       = '68fc61663fe5c833684d72885aad854e';
-    my $track_from_re_md51   = track_from_reanalyzing_md5( $wjoojoo_md5 );
-    ok( defined($track_from_re_md51), '$track_from_re_md51 is defined' );
-    isa_ok( $track_from_re_md51, 'WWW::EchoNest::Track' );
+    my $track_from_re_md5   = track_from_reanalyzing_md5( $wjoojoo_md5 );
+    ok( defined($track_from_re_md5), '$track_from_re_md5 is defined' );
+    isa_ok( $track_from_re_md5, 'WWW::EchoNest::Track' );
 };

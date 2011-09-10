@@ -73,14 +73,19 @@ sub get_foreign_id {
     # or the cached value doesn't contain a catalog entry for the idspace
     # the user has specified...
     if (not ($use_cached and $cached_val_ref and @catalog_match)) {
-        my $request_ref = { method => 'profile', bucket => [ "id:$idspace" ] };
-        my $response    = $self->get_attribute($request_ref);
+        my $response = $self->get_attribute(
+                                            {
+                                             method    => 'profile',
+                                             bucket => [ "id:$idspace" ],
+                                            }
+                                           );
+        
         my $songs_ref   = $response->{songs};
         
         return if ! $songs_ref;
 
         # foreign_ids_ref is an ARRAY ref
-        my $foreign_ids_ref = $songs_ref->[0]{foreign_ids}   // [];
+        my $foreign_ids_ref = $songs_ref->[0]{foreign_ids} // [];
 
         # if the song/profile request didn't yield a song with an id in the
         # requested id space, then we call song/search with artist_name
@@ -93,11 +98,12 @@ sub get_foreign_id {
             $search_ref->{bucket}       = [ "id:$idspace" ];
 
             my @songs = search_song( $search_ref );
+
             # Use the first song doc that has a matching entry for our desired
             # idspace
             SONG : for my $song (@songs) {
                 next SONG if ! (my $foreign_id_ref = $song->get_foreign_ids());
-		
+                
                 ID : for my $foreign_id (@$foreign_id_ref) {
                     next ID if ! ($foreign_id->{catalog} eq $idspace);
                     $foreign_ids_ref = $foreign_id;
@@ -105,16 +111,21 @@ sub get_foreign_id {
                 }
             }
         }
+
+        # return undef to caller if there still aren't any foreign id's
+        return if scalar(@$foreign_ids_ref) == 0;
 	
         push @$cached_val_ref, $foreign_ids_ref;
         $self->{foreign_ids} = $cached_val_ref;
+
+        return if 
     
         my @foreign_ids = map { $_->{catalog} eq $idspace ? $_ : () }
             @{ $self->{foreign_ids} };
 
         if ( my $foreign_id_ref = $foreign_ids[0] ) {
             my $returned_id = $foreign_id_ref->{foreign_id};
-            return $returned_id
+            return $returned_id;
         } else {
             return;
         }

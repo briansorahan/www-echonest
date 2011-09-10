@@ -129,7 +129,7 @@ sub _track_from_response {
     if ( $json_response->is_success() ) {
         $json_string = $json_response->decoded_content()
     } else {
-        croak "Could not get $json_url: $json_response->status_line()";
+        croak "Could not get $json_url: " . $json_response->status_line();
     }
 
     my $analysis          = decode_json( $json_string );
