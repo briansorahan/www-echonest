@@ -43,8 +43,8 @@ ECHO_NEST_API_KEY.
 
 Put this in your shell initialization script (e.g. ~/.profile) and you can
 probably forget that you ever had to set up an API key!  
-The hard way to do this is by using a function called set_api_key. This function
-is exported by WWW::EchoNest when you use the ':all' import tag.  
+The hard way to do this is by using a function called set_api_key every time you
+use WWW::EchoNest. This function is exported by WWW::EchoNest when you use the ':all' import tag.  
 
 ```perl
 use WWW::EchoNest qw(:all);  
