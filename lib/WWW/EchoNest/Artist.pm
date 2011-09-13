@@ -167,15 +167,12 @@ sub get_songs {
         if $cache and $cached_val and $start == 0 and $results == 15;
 
     # Get a new value for the attribute
-    my $response = $self->get_attribute
-        (
-         {
-          method    => 'songs',
-          start     => $start,
-          results   => $results,
-         }
-        );
-    my @song_list = $response->{songs};
+    my $response = $self->get_attribute( {
+                                          method    => 'songs',
+                                          start     => $start,
+                                          results   => $results,
+                                         } );
+    my @song_list = @{ $response->{songs} };
     for (@song_list) {
         $_->{artist_name} = $self->get_name();
         $_->{artist_id}   = $self->get_id();

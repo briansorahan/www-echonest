@@ -26,7 +26,6 @@ my $files     = join( q[ ], qw[
                                   song
                                   track
                                   00-load
-                                  boilerplate
                                   manifest
                                   pod-coverage
                                   pod

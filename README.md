@@ -67,7 +67,7 @@ my $free_bird_hotttnesss   = $free_bird->get_song_hotttnesss();
 ECHOPRINT
 --------------------
 
-The Echo Nest has released an open-source audio analyzer called 'echoprint'.
+Echoprint is an open-source audio analyzer created and maintained by The Echo Nest.
 If you wish to use the WWW::EchoNest::Song::identify function then you will have to have echoprint installed and working properly on your system.
 See http://echoprint.me for more information.
 After getting echoprint up and running, you should either edit WWW/EchoNest/Config.pm to hardcode the 'codegen_binary_override' field or call set_codegen_path from any programs that use Song::identify.  

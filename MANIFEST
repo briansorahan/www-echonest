@@ -26,7 +26,6 @@ MANIFEST.SKIP
 README.md
 t/00-load.t
 t/artist.t
-t/boilerplate.t
 t/catalog.t
 t/echonest.t
 t/manifest.t

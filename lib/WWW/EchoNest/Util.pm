@@ -23,7 +23,14 @@ use WWW::EchoNest::Logger;
 
 BEGIN {
     our @EXPORT        = qw[ ];
-    our @EXPORT_OK     = qw[ call_api codegen fix_keys user_agent json_rep md5 ];
+    our @EXPORT_OK     = qw[
+                               call_api
+                               codegen
+                               fix_keys
+                               user_agent
+                               json_rep
+                               md5
+                          ];
     our %EXPORT_TAGS   =
         (
          all => [ @EXPORT_OK ],
@@ -254,8 +261,8 @@ sub json_rep {
         $filename = qq['$filename'];
         my $cmd = _get_codegen_cmd();
         
-        # Construct and untaint the command for IPC::Open3
-        my $command = "$cmd $filename";
+        # Construct and untaint the command for pipe open
+        my $command = "$cmd $filename $start $duration";
         if ( $command =~ /([[:alpha:][:punct:][:digit:][:space:]]+)/ ) {
             $command = $1;
         }
@@ -269,15 +276,17 @@ sub json_rep {
         eval {
             $codegen_output = encode("UTF-8", $codegen_output);
         };
-        croak "$@" if $@;
-    
-        # Attempt to return a hash_ref created from the codegen output
-        eval {
-            $codegen_output = decode_json($codegen_output);
-        };
-        carp "$@" if $@;
-    
+        croak $@ if $@;
+        
         return $codegen_output;
+        
+        my $codegen_dsc;
+        eval {
+            $codegen_dsc = decode_json( $codegen_output );
+        };
+        carp $@ if $@;
+
+        return $codegen_dsc;
     }
 }
 

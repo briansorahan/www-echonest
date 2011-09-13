@@ -96,32 +96,41 @@ sub get_track {
 
 1;
 
+
 __END__
 
 =head1 NAME
 
-WWW::EchoNest 0.0.1 - Perl module for accessing the Echo Nest API.
+WWW::EchoNest - Perl wrapper for the Echo Nest web API.
 
-=head1 SYNOPSIS
+=head1 GETTING STARTED
 
-use WWW::EchoNest qw(:all);
-# Imports:
-# - get_artist
-# - get_catalog
-# - get_playlist
-# - get_song
-# - get_track
-# - pretty_json
-# - set_log_level
-# - set_codegen_path
-# - set_api_key
-# Each of which can also be imported individually.
+    use WWW::EchoNest qw(:all);  
+    # Imports:  
+    # - get_artist  
+    # - get_catalog  
+    # - get_playlist  
+    # - get_song  
+    # - get_track  
+    # - pretty_json  
+    # - set_log_level  
+    # - set_codegen_path  
+    # - set_api_key  
+    # Each of which can also be imported individually.  
+    
+    # Create an Artist object, and import some Artist functions
+    use WWW::EchoNest::Artist qw( list_terms similar );
+    my $talking_heads = get_artist('talking heads');
 
-use WWW::EchoNest::Artist; # So we can call Artist methods
-my $talking_heads = get_artist('talking heads');
-my $audio_docs_list = $talking_heads->get_audio;
-my 
-
+    # Example Artist methods
+    #
+    # Note:
+    # - methods that end in '_list' return an instance
+    #     of WWW::EchoNest::Result::List
+    #
+    my $audio_docs_list   = $talking_heads->get_audio();
+    my $video_list        = $talking_heads->get_video();
+    
 =head1 FUNCTIONS
 
 =head2 get_artist
@@ -212,17 +221,31 @@ my
 
 =head2 get_track
 
-  Convenience function for creating Track objects.
+Convenience function for creating Track objects.
 
-  ARGUMENTS:
-    A filename.
+ARGUMENTS:
+A filename.
 
-  RETURNS:
-    A new instance of WWW::EchoNest::Track.
+RETURNS:
+A new instance of WWW::EchoNest::Track.
 
-  EXAMPLE:
+EXAMPLE:
     use WWW::EchoNest qw( get_track );
     my $new_track = get_track('path/to/audio/file.mp3');
+
+=head2 pretty_json
+
+Convenience function for pretty-printing Perl data structures as JSON.
+
+ARGUMENTS:
+A reference to a Perl data structure.
+
+RETURNS:
+A string representing the pretty-printed JSON data structure.
+
+EXAMPLE:
+    use WWW::EchoNest qw( pretty_json );
+    print pretty_json( $misbehaving_dsc_ref ), "\n";
 
 =head1 AUTHOR
 
