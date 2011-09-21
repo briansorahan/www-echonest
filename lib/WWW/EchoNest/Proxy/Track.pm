@@ -1,5 +1,5 @@
 
-package WWW::EchoNest::TrackProxy;
+package WWW::EchoNest::Proxy::Track;
 
 BEGIN {
     our @EXPORT    = qw(  );
@@ -60,12 +60,9 @@ sub post_attribute {
 
 __END__
 
-
-
 =head1 NAME
 
-WWW::EchoNest::TrackProxy
-For internal use only!
+WWW::EchoNest::TrackProxy - Formats HTTP requests for WWW::EchoNest::Track.
 
 =head1 AUTHOR
 

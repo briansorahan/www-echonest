@@ -247,6 +247,49 @@ EXAMPLE:
     use WWW::EchoNest qw( pretty_json );
     print pretty_json( $misbehaving_dsc_ref ), "\n";
 
+=head2 set_log_level
+
+Convenience function for setting the log level used by WWW::EchoNest::Logger.
+
+ARGUMENTS:
+A string setting the log level. Valid choices are DEBUG, INFO, WARN, ERROR, and
+FATAL.
+
+RETURNS:
+Nothing.
+
+EXAMPLE:
+    use WWW::EchoNest qw( set_log_level );
+    set_log_level('DEBUG');
+
+=head2 set_codegen_path
+
+Convenience function for setting the path to your codegen program.
+
+ARGUMENTS:
+A string containing the path to your codegen program
+
+RETURNS:
+Nothing.
+
+EXAMPLE:
+    use WWW::EchoNest qw( set_codegen_path );
+    set_codegen_path('/path/to/echoprint');
+
+=head2 set_api_key
+
+Convenience function for setting the API key contained in WWW::EchoNest::Config.
+
+ARGUMENTS:
+Your API key.
+
+RETURNS:
+Nothing.
+
+EXAMPLE:
+    use WWW::EchoNest qw( set_api_key );
+    set_api_key('ABC123');
+
 =head1 AUTHOR
 
 Brian Sorahan, C<< <bsorahan@gmail.com> >>

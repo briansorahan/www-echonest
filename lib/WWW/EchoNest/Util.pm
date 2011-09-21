@@ -472,14 +472,11 @@ sub post_chunked {
 # We need this to fix up all the dict keys to be strings,
 # not unicode objects
 sub fix_keys {
-    my($hash_ref) = $_[0];
-    
-    if ( ref($hash_ref) ne 'HASH' ) {
-        croak( q/single hashref argument required/ );
-    }
-    
+    my ( $href, ) = @_;
+
     my %new_hash;
-    while ( my($k, $v) = each %$hash_ref ) {
+
+    while ( my($k, $v) = each %$href ) {
         # Encode::FB_Croak == 1 (according to the Encode documentation)
         # I tried investigating the value of Encode::FB_Croak by issuing the
         # command
@@ -487,114 +484,13 @@ sub fix_keys {
         # and it printed a blank line.
         # This is why I have simply written a 1 as the third parameter
         # to decode().
-	#
+	    #
         # - bps 5.22.2011
-	#
-        $new_hash{ decode(q/UTF-8/, $k, 1) } = $v;
+	    #
+        $new_hash{ decode('UTF-8', $k, 1) } = $v;
     }
     
     return \%new_hash;
 }
 
-1; # End of WWW::EchoNest::Util
-
-__END__
-
-
-
-=head1 NAME
-
-WWW::EchoNest::Util - Utility functions to support the Echo Nest web API.
-
-
-
-=head1 VERSION
-
-Version 0.001.
-
-
-
-=head1 DEPENDENCIES
-
-=head2 CPAN
-
-JSON
-
-
-
-=head1 SYNOPSIS
-    
-    use WWW::EchoNest::Util;
-
-
-
-=head1 METHODS
-
-=head2 new
-
-Returns a new WWW::EchoNest::Util instance.
-
-
-
-=head1 FUNCTIONS
-
-=head2 user_agent
-
-  Returns the LWP::UserAgent instance used by all WWW::EchoNest classes for
-  making HTTP requests.
-
-=head2 json_rep
-
-  Attempts to convert it's single argument into a JSON formatted string.
-
-=head2 codegen
-
-  Calls the codegen program and returns a HASH ref result.
-
-=head2 call_api
-
-  Calls the Echo Nest web API.
-
-=head2 get_conf
-
-  Returns the instance of WWW::EchoNest::Config used internally by Util.pm.
-
-=head2 set_conf
-
-  Creates a new WWW::EchoNest::Config object to be used internally by Util.pm.
-  Accepts a single HASH ref argument.
-
-=head2 post_chunked
-
-  Calls the Echo Nest web API. This most important method
-  of the entire WWW::EchoNest system.
-
-=head2 fix_keys
-
-  Calls the Echo Nest web API. This most important method
-  of the entire WWW::EchoNest system.
-
-
-
-=head1 AUTHOR
-
-Brian Sorahan, C<< <bsorahan@gmail.com> >>
-
-=head1 SUPPORT
-
-Join the Google group: <http://groups.google.com/group/www-echonest>
-
-=head1 ACKNOWLEDGEMENTS
-
-Thanks to all the folks at The Echo Nest for providing access to their
-powerful API.
-
-=head1 LICENSE AND COPYRIGHT
-
-Copyright 2011 Brian Sorahan.
-
-This program is free software; you can redistribute it and/or modify it
-under the terms of either: the GNU General Public License as published
-by the Free Software Foundation; or the Artistic License.
-
-See http://dev.perl.org/licenses/ for more information.
+1;

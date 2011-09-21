@@ -16,7 +16,7 @@ BEGIN {
     our @EXPORT    = qw(  );
     our @EXPORT_OK = qw( profile search_song identify );
 }
-use parent qw( WWW::EchoNest::SongProxy Exporter );
+use parent qw( WWW::EchoNest::Proxy::Song Exporter );
 
 use JSON;
 
@@ -87,8 +87,12 @@ sub get_foreign_id {
         # foreign_ids_ref is an ARRAY ref
         my $foreign_ids_ref = $songs_ref->[0]{foreign_ids} // [];
 
-        # if the song/profile request didn't yield a song with an id in the
+        # If the song/profile request didn't yield a song with an id in the
         # requested id space, then we call song/search with artist_name
+        #
+        # I want to delete this code and make clients call song/search on their
+        # own.
+        # - bps [9.15.11]
         if ( scalar( @$foreign_ids_ref ) == 0 ) {
             # Call song/search
             my $search_ref              = {};

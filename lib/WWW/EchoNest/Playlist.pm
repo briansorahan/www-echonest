@@ -10,7 +10,7 @@ BEGIN {
     our @EXPORT      = ();
     our @EXPORT_OK   = qw( static _playlist_types );
 }
-use parent qw( WWW::EchoNest::PlaylistProxy Exporter );
+use parent qw( WWW::EchoNest::Proxy::Playlist Exporter );
 
 use WWW::EchoNest::Functional qw(
                                     any

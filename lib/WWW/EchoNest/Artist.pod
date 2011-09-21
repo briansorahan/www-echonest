@@ -1,0 +1,289 @@
+=head1 NAME
+
+WWW::EchoNest::Artist - Class definition for artist objects.
+
+=head1 DESCRIPTION
+
+The Echo Nest provides information for musical artists that is based on data gathered by both crawling the web and analyzing audio tracks by these artists.
+
+=head1 CONSTRUCTOR
+
+=over
+
+=item * See the perldoc for WWW::EchoNest for a simpler way to construct instances of WWW::EchoNest::Artist.
+
+=back
+
+ # Initialize with name ...
+ use WWW::EchoNest::Artist;
+ my $boss = WWW::EchoNest::Artist->new(
+                                       {
+                                        name     => 'Bruce Springstein'
+                                        buckets  => qw( audio biographies blogs familiarity hotttnesss images news reviews terms urls video
+                                                        id:CA1234567812345678 id:musicbrainz id:playme id:7digital id:7digital-US rdio-us-streaming ),
+                                       }
+                                      );
+
+ # or initialize with an ID
+ my $satchmo = WWW::EchoNest::Artist->new(
+                                          {
+                                           id       => 'AR...' # TODO - Find Louie's artist ID!
+                                           buckets  => qw( audio biographies blogs familiarity hotttnesss images news reviews terms urls video
+                                                           id:CA1234567812345678 id:musicbrainz id:playme id:7digital id:7digital-US rdio-us-streaming ),
+                                          }
+                                         );
+
+=head1 METHODS
+
+=head3 Methods that return scalars
+
+=over
+
+=item * Each of these methods accepts either no arguments or a single hash-ref.
+
+=item * All possible arguments are shown with their defaults.
+
+=item * If an argument accepts one value from a set of values the set of values will be listed with the perl qw( ... ) syntax.
+
+=back
+
+ # Echo Nest Artist ID
+ $boss->get_id();
+ 
+ # Artist name
+ $boss->get_name();
+
+ # Numerical estimation of artist's familiarity to the rest of the world
+ $boss->get_familiarity();
+
+ # Artist's ID from a different catalog
+ $boss->get_foreign_id(
+                       {
+                        cache   => 1,
+                        # CA1234567812345678 means any Echo Nest Catalog ID: see the perldoc for WWW::EchoNest::Catalog
+                        idspace => qw( CA1234567812345678 musicbrainz playme 7digital 7digital-US rdio-us-streaming ),
+                       }
+                      );
+
+ # Echo Nest's numerical estimation of how 'hottt' an artist is
+ $boss->get_hotttnesss( { cache => 1 } );
+
+=head3 Methods that can return a list
+
+=over
+
+=item * These methods return a list of hash-refs when called in list context and a reference to a list of hash-refs when called in scalar context.
+
+=item * Each of these methods accepts a single hash-ref as an argument.
+
+=item * All possible arguments are shown with their defaults.
+
+=item * If an argument accepts one value from a set of values the set of values will be listed with the perl qw( ... ) syntax.
+
+=item * If any information is incomplete please first refer to the Echo Nest's developer documentation at http://developer.echonest.com/docs/v4/artist.html, and if you can't find an answer there join the www-echonest google group (see SUPPORT below) and post a comment.
+
+=back
+
+ $boss->get_audio(
+                  {
+                   cache    => 1,
+                   start    => 0,
+                   results  => 15,
+                  }
+                 );
+
+ $boss->get_biographies(
+                        {
+                         cache    => 1,
+                         start    => 0,
+                         results  => 15,
+                         license  => qw( echo-source all-rights-reserved cc-by-sa cc-by-nc cc-by-nc-nd cc-by-nc-sa cc-by-nd cc-by public-domain unknown ),
+                        }
+                       );
+
+ $boss->get_blogs(
+                  {
+                   cache           => 1,
+                   start           => 0,
+                   results         => 15,
+                   high_relevance  => 0,
+                  }
+                 );
+
+ $boss->get_images(
+                   {
+                    cache    => 1,
+                    start    => 0,
+                    results  => 15,
+                    license  => qw( echo-source all-rights-reserved cc-by-sa cc-by-nc cc-by-nc-nd cc-by-nc-sa cc-by-nd cc-by public-domain unknown ),
+                   }
+                  );
+
+ $boss->get_news(
+                 {
+                  cache    => 1,
+                  start    => 0,
+                  results  => 15,
+                 }
+                );
+
+ $boss->get_reviews(
+                    {
+                     cache    => 1,
+                     start    => 0,
+                     results  => 15,
+                    }
+                   );
+   
+ $boss->get_similar(
+                    {
+                     cache             => 1,
+                     start             => 0,
+                     results           => 15,
+                     min_familiarity   => 0.0,
+                     max_familiarity   => 1.0,
+                     min_hotttnesss    => 0.0,
+                     max_hotttnesss    => 1.0,
+                     reverse           => 0,
+                    }
+                   );
+   
+ $boss->get_songs(
+                  {
+                   cache    => 1,
+                   start    => 0,
+                   results  => 15,
+                  }
+                 );
+
+ $boss->get_terms(
+                  {
+                   cache    => 1,
+                   sort     => qw( weight frequency ),
+                  }
+                 );
+
+ $boss->get_urls( { cache => 1 } );
+
+ $boss->get_video(
+                  {
+                   cache    => 1,
+                   start    => 0,
+                   results  => 15,
+                  }
+                 );
+
+=head1 FUNCTIONS
+
+=over
+
+=item * These functions return a list of hash-refs when called in list context and a reference to a list of hash-refs when called in scalar context.
+
+=item * Each of these functions accepts a single hash-ref as an argument.
+
+=item * All possible arguments are shown with their defaults.
+
+=item * If an argument accepts one value from a set of values the set of values will be listed with the perl qw( ... ) syntax.
+
+=back
+
+ use WWW::EchoNest::Artist qw( list_terms search_artist similar top_hottt top_terms );
+ 
+ # Get a list of best terms to use with search
+ list_terms( { type => qw( mood style ) } );
+
+ # Search for an artist by name, description, or constraint.
+ # The description, style, and mood parameters should be terms taken from a call to list_terms (see above).
+ search_artist(
+               {
+                name               => 'Bruce Springstein',
+                start              => 0,
+                results            => 15,
+                buckets            => qw( audio biographies blogs familiarity hotttnesss images news reviews terms urls video
+                                          id:CA1234567812345678 id:musicbrainz id:playme id:7digital id:7digital-US rdio-us-streaming ),
+                description        => qw( alt-rock -emo harp^2 ),
+                style              => qw( jazz metal^3 ),
+                mood               => qw( happy sad^5 ),
+                limit              => 0,
+                fuzzy_match        => 0,
+                min_familiarity    => 0.0,
+                max_familiarity    => 1.0,
+                min_hotttnesss     => 0.0,
+                max_hotttnesss     => 1.0,
+                sort               => qw( familiarity-asc familiarity-desc hotttnesss-asc hotttnesss-desc ),
+                rank_type          => qw( relevance familiarity ),
+               }
+              );
+
+ # Search for similar artists by name, id, description, or constraint.
+ # I have intentionally left out many of the details for the parameters and acceptable syntax for search_artist.
+ # Refer to the Echo Nest developer documentation at http://developer.echonest.com/docs/v4/artist.html#search for more information.
+ similar(
+         {
+          ids                => qw( AR1234567812345678 ... ), # A list of Echo Nest artist ID's (up to 5)
+          names              => ( 'Bruce Springstein', 'Louie Armstrong' ), # A list of artist names
+          start              => 0,
+          results            => 15,
+          buckets            => qw( audio biographies blogs familiarity hotttnesss images news reviews terms urls video
+                                    id:CA1234567812345678 id:musicbrainz id:playme id:7digital id:7digital-US rdio-us-streaming ),
+          description        => qw( alt-rock -emo harp^2 ),
+          style              => qw( jazz metal^3 ),
+          mood               => qw( happy sad^5 ),
+          limit              => 0,
+          fuzzy_match        => 0,
+          min_results        => 15,
+          min_familiarity    => 0.0,
+          max_familiarity    => 1.0,
+          min_hotttnesss     => 0.0,
+          max_hotttnesss     => 1.0,
+          reverse            => 0,
+          limit              => 0,
+          seed_catalog       => qw( CA1234567812345678 ... ), # Up to 5 Echo Nest Catalog ID's
+          sort               => qw( familiarity-asc familiarity-desc hotttnesss-asc hotttnesss-desc ),
+          rank_type          => qw( relevance familiarity ),
+         }
+        );
+
+ # Get the top hottttest artists, according to the Echo Nest
+ top_hottt(
+           {
+            results      => 15,
+            start        => 0,
+            buckets      => qw( audio biographies blogs familiarity hotttnesss images news reviews terms urls video
+                                id:CA1234567812345678 id:musicbrainz id:playme id:7digital id:7digital-US rdio-us-streaming ),
+            limit        => 0,
+           }
+          );
+ 
+ # Get a list of the top overall terms.
+ top_terms( { results => 15 } );
+
+=head1 AUTHOR
+
+Brian Sorahan
+
+=head1 SUPPORT
+
+=over
+
+=item * I have intentionally left out many of the details for the parameters of some of these function calls and methods. The Echo Nest API is under constant development and I am maintaining these modules in my limited free time.
+
+=item * Refer to the Echo Nest developer documentation at http://developer.echonest.com/docs/v4/artist.html for more information if anything below seems incomplete or ambiguous.
+
+=item * If you can't find an answer in the online documentation join the www-echonest google group at http://groups.google.com/group/www-echonest, post a comment, and I will do my best to help you find an answer.
+
+=back
+
+=head1 ACKNOWLEDGEMENTS
+
+Thanks to all the folks at The Echo Nest for providing access to their powerful API.
+
+=head1 LICENSE
+
+Copyright 2011 Brian Sorahan.
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of either: the GNU General Public License as published
+by the Free Software Foundation; or the Artistic License.
+
+See http://dev.perl.org/licenses/ for more information.

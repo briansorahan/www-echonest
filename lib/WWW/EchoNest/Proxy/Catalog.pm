@@ -1,5 +1,5 @@
 
-package WWW::EchoNest::CatalogProxy;
+package WWW::EchoNest::Proxy::Catalog;
 
 BEGIN {
     our @EXPORT       = ();

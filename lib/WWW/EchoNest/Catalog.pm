@@ -5,7 +5,7 @@ BEGIN {
     our @EXPORT        = qw(  );
     our @EXPORT_OK     = qw( list_catalogs _types delete_all );
 }
-use parent qw[ WWW::EchoNest::CatalogProxy Exporter ];
+use parent qw[ WWW::EchoNest::Proxy::Catalog Exporter ];
 
 use 5.010;
 use strict;
@@ -41,7 +41,7 @@ sub _stringify {
     return q[<Catalog - '] . $_[0]->get_name . q['>];
 }
 
-sub _types { WWW::EchoNest::CatalogProxy::_types }
+sub _types { WWW::EchoNest::Proxy::Catalog::_types }
 
 sub _pretty_json { to_json( $_[0], { utf8 => 1, pretty => 1 } ) }
 

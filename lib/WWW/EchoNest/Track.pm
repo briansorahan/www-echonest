@@ -29,7 +29,7 @@ BEGIN {
                    ) ]
         );
 }
-use parent qw( WWW::EchoNest::TrackProxy Exporter );
+use parent qw( WWW::EchoNest::Proxy::Track Exporter );
 
 use WWW::EchoNest::Util qw(
                               md5
@@ -323,21 +323,21 @@ sub track_from_reanalyzing_md5 {
 
 __END__
 
-
-
 =head1 NAME
 
-WWW::EchoNest::Track
+WWW::EchoNest::Track - Provides functions to access Echo Nest audio analysis.
 
 =head1 SYNOPSIS
     
-    Represents an audio analysis from The Echo Nest.
-    All the functions exportable from this module return
-    Track objects.
+    # The functions of this module all return an instance of WWW::EchoNest::Track.
+    # Attributes of the returned Track object are accessed through object methods.
+    # Most common usage:
+    use WWW::EchoNest::Track qw( track_from_file );
+    track_from_file('/
 
 =head1 METHODS
 
-  This module's interface is purely functional. No methods.
+All methods are attribute getters and setters.
 
 =head1 FUNCTIONS
 
@@ -360,8 +360,6 @@ WWW::EchoNest::Track
     open ( my $AUDIO_FH, '<', 'path/to/other.mp3' );
     my @tracks[1] = track_from_file($AUDIO_FH);
 
-
-
 =head2 track_from_filename
 
   Creates a new Track object from a filename.
@@ -375,8 +373,6 @@ WWW::EchoNest::Track
 
   EXAMPLE:
     # Insert helpful example here!
-
-
 
 =head2 track_from_url
 
@@ -392,8 +388,6 @@ WWW::EchoNest::Track
   EXAMPLE:
     # Insert helpful example here!
 
-
-
 =head2 track_from_id
 
   Creates a new Track object from an Echo Nest track ID.
@@ -406,8 +400,6 @@ WWW::EchoNest::Track
 
   EXAMPLE:
     # Insert helpful example here!
-
-
 
 =head2 track_from_md5
 
@@ -422,8 +414,6 @@ WWW::EchoNest::Track
   EXAMPLE:
     # Insert helpful example here!
 
-
-
 =head2 track_from_reanalyzing_id
 
   Create a track object from an Echo Nest track ID, reanalyzing the track first.
@@ -437,8 +427,6 @@ WWW::EchoNest::Track
   EXAMPLE:
     # Insert helpful example here!
 
-
-
 =head2 track_from_reanalyzing_md5
 
   Create a track object from an md5 hash, reanalyzing the track first.
@@ -451,8 +439,6 @@ WWW::EchoNest::Track
 
   EXAMPLE:
     # Insert helpful example here!
-
-
 
 =head1 AUTHOR
 

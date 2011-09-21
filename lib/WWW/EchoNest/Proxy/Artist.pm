@@ -1,5 +1,5 @@
 
-package WWW::EchoNest::ArtistProxy;
+package WWW::EchoNest::Proxy::Artist;
 
 use 5.010;
 use strict;

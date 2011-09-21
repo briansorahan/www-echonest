@@ -1,5 +1,5 @@
 
-package WWW::EchoNest::PlaylistProxy;
+package WWW::EchoNest::Proxy::Playlist;
 
 BEGIN {
     our @EXPORT       = ();
