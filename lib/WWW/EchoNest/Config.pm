@@ -29,7 +29,7 @@ my %fields =
      mp3_bitrate               => 128,
      timeout                   => 30,
      show_progress             => 0,
-     codegen_binary_override   => '/home/brian/bin/codegen.Linux-i686',
+     codegen_binary_override   => '/home/brian/bin/codegen',
     );
 
 # See WWW::EchoNest::Functional for the def of this sub.
